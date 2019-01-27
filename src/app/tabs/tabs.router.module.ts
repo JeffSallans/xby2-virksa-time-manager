@@ -17,11 +17,11 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'tab2',
+        path: 'switch-activity-tab',
         children: [
           {
             path: '',
-            loadChildren: '../tab2/tab2.module#Tab2PageModule'
+            loadChildren: '../switch-activity-tab/switchActivityTab.module#SwitchActivityTabPageModule'
           }
         ]
       },
@@ -36,14 +36,14 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/switch-activity-tab',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/switch-activity-tab',
     pathMatch: 'full'
   }
 ];

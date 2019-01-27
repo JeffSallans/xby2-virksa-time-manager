@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Select Your Current Activity
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let activity of possibleActivityTypes" size="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{activity.name}}</ion-card-title>
+            <ion-card-subtitle><ion-badge [color]="getIonBadgeClasses(activity)">{{getDailyHourTotal(activity)}}</ion-badge></ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-button *ngIf="!isCurrentActivity(activity)" (click)="startActivity(activity)">Start</ion-button>
+            <ion-button *ngIf="isCurrentActivity(activity)" fill="outline" (click)="pauseActivity(activity)">Pause</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
