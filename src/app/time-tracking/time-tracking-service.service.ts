@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
-import _ from 'lodash';
+import {
+	isEmpty,
+	isNil,
+	cloneDeep,
+	map,
+	defaultTo,
+	reduce,
+} from 'lodash';
 import * as moment from 'moment';
 import { Storage } from '@ionic/storage';
 
@@ -32,10 +39,10 @@ export class TimeTrackingService {
 	constructor(private storage: Storage) {
 		storage.get(storageKey)
 			.then(data => {
-				if (!_.isEmpty(data)) {
+				if (!isEmpty(data)) {
 					// Convert string to properly formed JSON
 					const activityListWithoutClasses = JSON.parse(data);
-					const loadedActivityList: ActivitySession[] = _.map(activityListWithoutClasses, 
+					const loadedActivityList: ActivitySession[] = map(activityListWithoutClasses, 
 						(activityWithoutClasses) => 
 						ActivitySession.convertObject(activityWithoutClasses, this.getPossibleActivityTypes())
 					);
@@ -45,22 +52,22 @@ export class TimeTrackingService {
 	}
 
 	private getCurrentRunningActivityReference() {
-			const currentActivity = this.activityList.find((activity) => _.isNil(activity.stopTime));
+			const currentActivity = this.activityList.find((activity) => isNil(activity.stopTime));
 			return currentActivity;
 	}
 
 	getActivityList(): ActivitySession[] {
-		return _.cloneDeep(this.activityList);
+		return cloneDeep(this.activityList);
 	}
 
 	getPossibleActivityTypes(): ActivityType[] {
-		return _.cloneDeep(this.possibleActivityTypes);
+		return cloneDeep(this.possibleActivityTypes);
 	}
 
 	startActivity(newActivityType: ActivityType) {
 		// Stop current activity
 		const currentActivity = this.getCurrentRunningActivityReference();
-		if (!_.isNil(currentActivity)) {
+		if (!isNil(currentActivity)) {
 			currentActivity.stopTime = moment();
 		}
 		// Setup new activity
@@ -73,7 +80,7 @@ export class TimeTrackingService {
 
 	pauseActivity() {
 		const currentActivity = this.getCurrentRunningActivityReference();
-		if (!_.isNil(currentActivity)) {
+		if (!isNil(currentActivity)) {
 			currentActivity.stopTime = moment();
 		}
 
@@ -82,21 +89,23 @@ export class TimeTrackingService {
 	}
 
 	getCurrentRunningActivity(): ActivitySession | null {
-			return _.defaultTo(_.cloneDeep(this.getCurrentRunningActivityReference()), null);
+			return defaultTo(cloneDeep(this.getCurrentRunningActivityReference()), null);
 	}
 
 	getTotalDailyTimeForActivity(activityType: ActivityType, dayOfActivity: moment.Moment = moment()): moment.Duration {
 			const activities = this.activityList.filter((activity) => activityType.id === activity.activityType.id && dayOfActivity.date() === activity.startTime.date());
-			const totalDuration = _.transform(activities, (resultSoFar: moment.Duration, activity: ActivitySession) => {
+			const totalDuration = reduce(activities, (resultSoFar: moment.Duration, activity: ActivitySession) => {
 					resultSoFar.add(activity.getDuration());
+					return resultSoFar;
 			}, moment.duration());
 			return totalDuration;
 	}
 
 	getTotalWeeklyTimeForActivity(activityType: ActivityType): moment.Duration {
 			const activities = this.activityList.filter((activity) => activityType.id === activity.activityType.id);
-			const totalDuration = _.transform(activities, (resultSoFar: moment.Duration, activity: ActivitySession) => {
+			const totalDuration = reduce(activities, (resultSoFar: moment.Duration, activity: ActivitySession) => {
 					resultSoFar.add(activity.getDuration());
+					return resultSoFar;
 			}, moment.duration());
 			return totalDuration;
 	}

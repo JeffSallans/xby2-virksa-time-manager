@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import * as moment from 'moment';
-import _ from 'lodash';
+import { isNil, padStart } from 'lodash';
 
 import { TimeTrackingService, ActivityType, ActivitySession } from '../time-tracking';
 
@@ -31,7 +31,7 @@ export class SwitchActivityTabPage {
 
   getDailyHourTotal(activityType: ActivityType): string {
     const duration: moment.Duration = this.timeTrackingService.getTotalDailyTimeForActivity(activityType);
-    return `${duration.hours()}:${_.padStart(duration.minutes(), 2, '0')}:${_.padStart(duration.seconds(), 2, '0')}`;
+    return `${duration.hours()}:${padStart(duration.minutes().toString(), 2, '0')}:${padStart(duration.seconds().toString(), 2, '0')}`;
   }
 
   startActivity(activityType: ActivityType) {
@@ -49,7 +49,7 @@ export class SwitchActivityTabPage {
   isCurrentActivity(activityType: ActivityType): boolean {
     const currentActivity: ActivitySession | null = this.timeTrackingService.getCurrentRunningActivity();
 
-    return !_.isNil(currentActivity) && currentActivity.activityType.id === activityType.id;
+    return !isNil(currentActivity) && currentActivity.activityType.id === activityType.id;
   }
 
   /**

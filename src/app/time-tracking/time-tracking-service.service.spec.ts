@@ -1,4 +1,9 @@
-import _ from 'lodash';
+import {
+	map,
+	merge,
+	omit,
+	isNil,
+} from 'lodash';
 import { TestBed } from '@angular/core/testing';
 import { expectjs, registerSnapshots } from "jasmine-snapshot";
 
@@ -59,10 +64,10 @@ describe('TimeTrackingService', () => {
 			const service: TimeTrackingService = TestBed.get(TimeTrackingService);
 			service.startActivity(service.getPossibleActivityTypes()[0]);
 			// Validate
-			const result = _.map(service.getActivityList(), (activity) => {
-				return _.merge(_.omit(activity, ['startTime', 'stopTime']), {
-					hasStartTime: !_.isNil(activity.startTime),
-					hasStopTime: !_.isNil(activity.stopTime),
+			const result = map(service.getActivityList(), (activity) => {
+				return merge(omit(activity, ['startTime', 'stopTime']), {
+					hasStartTime: !isNil(activity.startTime),
+					hasStopTime: !isNil(activity.stopTime),
 				});
 			});
 			expectjs(result).toMatchSnapshot();
@@ -74,10 +79,10 @@ describe('TimeTrackingService', () => {
 			service.startActivity(service.getPossibleActivityTypes()[0]);
 			service.startActivity(service.getPossibleActivityTypes()[0]);
 			// Validate
-			const result = _.map(service.getActivityList(), (activity) => {
-				return _.merge(_.omit(activity, ['startTime', 'stopTime']), {
-					hasStartTime: !_.isNil(activity.startTime),
-					hasStopTime: !_.isNil(activity.stopTime),
+			const result = map(service.getActivityList(), (activity) => {
+				return merge(omit(activity, ['startTime', 'stopTime']), {
+					hasStartTime: !isNil(activity.startTime),
+					hasStopTime: !isNil(activity.stopTime),
 				});
 			});
 			expectjs(result).toMatchSnapshot();
@@ -91,10 +96,10 @@ describe('TimeTrackingService', () => {
 			service.startActivity(service.getPossibleActivityTypes()[0]);
 			service.pauseActivity();
 			// Validate
-			const result = _.map(service.getActivityList(), (activity) => {
-				return _.merge(_.omit(activity, ['startTime', 'stopTime']), {
-					hasStartTime: !_.isNil(activity.startTime),
-					hasStopTime: !_.isNil(activity.stopTime),
+			const result = map(service.getActivityList(), (activity) => {
+				return merge(omit(activity, ['startTime', 'stopTime']), {
+					hasStartTime: !isNil(activity.startTime),
+					hasStopTime: !isNil(activity.stopTime),
 				});
 			});
 			expectjs(result).toMatchSnapshot();
@@ -104,17 +109,17 @@ describe('TimeTrackingService', () => {
 			const service: TimeTrackingService = TestBed.get(TimeTrackingService);
 			service.startActivity(service.getPossibleActivityTypes()[0]);
 			service.pauseActivity();
-			const firstPauseResult = _.map(service.getActivityList(), (activity) => {
-				return _.merge(_.omit(activity, ['startTime', 'stopTime']), {
-					hasStartTime: !_.isNil(activity.startTime),
-					hasStopTime: !_.isNil(activity.stopTime),
+			const firstPauseResult = map(service.getActivityList(), (activity) => {
+				return merge(omit(activity, ['startTime', 'stopTime']), {
+					hasStartTime: !isNil(activity.startTime),
+					hasStopTime: !isNil(activity.stopTime),
 				});
 			});
 			service.pauseActivity();
-			const secondPauseResult = _.map(service.getActivityList(), (activity) => {
-				return _.merge(_.omit(activity, ['startTime', 'stopTime']), {
-					hasStartTime: !_.isNil(activity.startTime),
-					hasStopTime: !_.isNil(activity.stopTime),
+			const secondPauseResult = map(service.getActivityList(), (activity) => {
+				return merge(omit(activity, ['startTime', 'stopTime']), {
+					hasStartTime: !isNil(activity.startTime),
+					hasStopTime: !isNil(activity.stopTime),
 				});
 			});
 

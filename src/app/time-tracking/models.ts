@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import _ from 'lodash';
+import { isNil, find } from 'lodash';
 
 export class ActivityType {
     constructor(
@@ -25,9 +25,9 @@ export class ActivitySession {
      * @param possibleActivityTypes The possible activity types that could match to the activity classes
      */
     static convertObject(activityWithoutClasses, possibleActivityTypes: ActivityType[]):ActivitySession {
-        const matchingActivityType = _.find(possibleActivityTypes, (activityType) => activityType.id === activityWithoutClasses.activityType.id);
+        const matchingActivityType = find(possibleActivityTypes, (activityType) => activityType.id === activityWithoutClasses.activityType.id);
         // Check parsing assumption
-        if (_.isNil(matchingActivityType)) {
+        if (isNil(matchingActivityType)) {
             console.error('ActivitySession.convertObject - Cannot convert object because ActivityType class could not be added', {
                 howToFixThis: 'Review activityType and double check why it does not have an id that matches to possibleActivityTypes',
                 activityType: activityWithoutClasses.activityType,
@@ -40,13 +40,13 @@ export class ActivitySession {
             ...activityWithoutClasses,
             activityType: matchingActivityType,
             startTime: moment(activityWithoutClasses.startTime),
-            stopTime: _.isNil(activityWithoutClasses.stopTime) ? null : moment(activityWithoutClasses.stopTime),
+            stopTime: isNil(activityWithoutClasses.stopTime) ? null : moment(activityWithoutClasses.stopTime),
         };
         return new ActivitySession(loadedActivity.activityType, loadedActivity.startTime, loadedActivity.stopTime, loadedActivity.description);
     }
 
     getDuration() : moment.Duration {
-        if (_.isNil(this.stopTime)) {
+        if (isNil(this.stopTime)) {
             const currentTime = moment();
             const duration = moment.duration(currentTime.diff(this.startTime));
             return duration;
