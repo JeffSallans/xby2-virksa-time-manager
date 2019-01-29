@@ -31,14 +31,36 @@ $ npm install
 
 5) (Optional) Download the IonicDev mobile app
 
-## Deployment
+## Local Development
 
 1) Navigate to project directory
 ```
 $ ionic serve
 ```
 
-3) View application at [http://localhost:8100](http://http://localhost:8100)
+2) View application at [http://localhost:8100](http://http://localhost:8100)
+
+
+## Deployment
+
+1) Navigate to project directory
+```
+$ ionic capacitor copy android
+```
+
+2) Open `./android` in Android Studio
+
+3) Go to Build > Generate Signed Bundle / API...
+
+4) Select *APK* option
+
+5) Setup a keystore
+
+6) Select `release` and `V2 full signature`
+
+7) Move API to phone with file transer
+
+8) Open and install on phone
 
 ## Conventions
 
@@ -51,12 +73,14 @@ Reach out to me.
 ## To Do
 
 - [x] Switch Activity Screen
-- [ ] Ionic CI/CD setup
+- [x] Ionic APK Build
 - [ ] Review Activities Screen
+- [x] Add icons https://www.joshmorony.com/adding-icons-splash-screens-launch-images-to-capacitor-projects/
 - [ ] Activity Summary Screen
 - [ ] Notification Bar Easy Entry
 - [ ] (Review Screen) Push to X by 2 task tracking
 - [ ] User configure activity types
+- [ ] CI/CD configuration with Ionic AppFlow
 - [ ] Set slack status
 - [ ] Import Outlook Calendar data
 
