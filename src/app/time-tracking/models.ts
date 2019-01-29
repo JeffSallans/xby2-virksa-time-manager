@@ -1,5 +1,6 @@
 import * as moment from 'moment';
 import { isNil, find } from 'lodash';
+import shortid from 'shortid';
 
 export class ActivityType {
     constructor(
@@ -11,12 +12,13 @@ export class ActivityType {
 }
 
 export class ActivitySession {
+    id: string;
     constructor(
         public activityType: ActivityType,
         public startTime: moment.Moment,
         public stopTime?: moment.Moment,
         public description?: string) {
-
+        this.id = shortid.generate();
     }
 
     /**
@@ -53,5 +55,9 @@ export class ActivitySession {
         }
         const duration = moment.duration(this.stopTime.diff(this.startTime));
         return duration;
+    }
+
+    getHasBeenReviewed(): boolean {
+        return !isNil(this.stopTime) && !isNil(this.description);
     }
 }

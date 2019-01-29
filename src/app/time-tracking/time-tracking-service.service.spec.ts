@@ -64,13 +64,16 @@ describe('TimeTrackingService', () => {
 			const service: TimeTrackingService = TestBed.get(TimeTrackingService);
 			service.startActivity(service.getPossibleActivityTypes()[0]);
 			// Validate
-			const result = map(service.getActivityList(), (activity) => {
-				return merge(omit(activity, ['startTime', 'stopTime']), {
-					hasStartTime: !isNil(activity.startTime),
-					hasStopTime: !isNil(activity.stopTime),
+			service.getActivityList()
+			.then((activityList) => {
+				const result = map(activityList, (activity) => {
+					return merge(omit(activity, ['startTime', 'stopTime']), {
+						hasStartTime: !isNil(activity.startTime),
+						hasStopTime: !isNil(activity.stopTime),
+					});
 				});
+				expectjs(result).toMatchSnapshot();
 			});
-			expectjs(result).toMatchSnapshot();
 		});
 
 		it('stops the current activity', () => {
@@ -79,13 +82,16 @@ describe('TimeTrackingService', () => {
 			service.startActivity(service.getPossibleActivityTypes()[0]);
 			service.startActivity(service.getPossibleActivityTypes()[0]);
 			// Validate
-			const result = map(service.getActivityList(), (activity) => {
-				return merge(omit(activity, ['startTime', 'stopTime']), {
-					hasStartTime: !isNil(activity.startTime),
-					hasStopTime: !isNil(activity.stopTime),
+			service.getActivityList()
+			.then((activityList) => {
+				const result = map(activityList, (activity) => {
+					return merge(omit(activity, ['startTime', 'stopTime']), {
+						hasStartTime: !isNil(activity.startTime),
+						hasStopTime: !isNil(activity.stopTime),
+					});
 				});
+				expectjs(result).toMatchSnapshot();
 			});
-			expectjs(result).toMatchSnapshot();
 		});
 	});
 
@@ -96,35 +102,46 @@ describe('TimeTrackingService', () => {
 			service.startActivity(service.getPossibleActivityTypes()[0]);
 			service.pauseActivity();
 			// Validate
-			const result = map(service.getActivityList(), (activity) => {
-				return merge(omit(activity, ['startTime', 'stopTime']), {
-					hasStartTime: !isNil(activity.startTime),
-					hasStopTime: !isNil(activity.stopTime),
+			return service.getActivityList()
+			.then((activityList) => {
+				const result = map(activityList, (activity) => {
+					return merge(omit(activity, ['startTime', 'stopTime']), {
+						hasStartTime: !isNil(activity.startTime),
+						hasStopTime: !isNil(activity.stopTime),
+					});
 				});
+				expectjs(result).toMatchSnapshot();
 			});
-			expectjs(result).toMatchSnapshot();
 		});
 		it('does nothing if the last activity was stopped', () => {
 			// Setup
+			let firstPauseResult;
 			const service: TimeTrackingService = TestBed.get(TimeTrackingService);
 			service.startActivity(service.getPossibleActivityTypes()[0]);
 			service.pauseActivity();
-			const firstPauseResult = map(service.getActivityList(), (activity) => {
-				return merge(omit(activity, ['startTime', 'stopTime']), {
-					hasStartTime: !isNil(activity.startTime),
-					hasStopTime: !isNil(activity.stopTime),
+			return service.getActivityList()
+			.then((activityList) => {
+				firstPauseResult = map(activityList, (activity) => {
+					return merge(omit(activity, ['startTime', 'stopTime']), {
+						hasStartTime: !isNil(activity.startTime),
+						hasStopTime: !isNil(activity.stopTime),
+					});
 				});
-			});
-			service.pauseActivity();
-			const secondPauseResult = map(service.getActivityList(), (activity) => {
-				return merge(omit(activity, ['startTime', 'stopTime']), {
-					hasStartTime: !isNil(activity.startTime),
-					hasStopTime: !isNil(activity.stopTime),
+				service.pauseActivity();
+			})
+			.then(() => service.getActivityList())
+			.then((activityList) => {
+				const secondPauseResult = map(activityList, (activity) => {
+					return merge(omit(activity, ['startTime', 'stopTime']), {
+						hasStartTime: !isNil(activity.startTime),
+						hasStopTime: !isNil(activity.stopTime),
+					});
 				});
+
+				// Validate
+				expect(firstPauseResult).toEqual(secondPauseResult);
 			});
 
-			// Validate
-			expect(firstPauseResult).toEqual(secondPauseResult);
 		});
 	});
 });

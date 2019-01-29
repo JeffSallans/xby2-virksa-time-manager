@@ -74,9 +74,10 @@ Reach out to me.
 
 - [x] Switch Activity Screen
 - [x] Ionic APK Build
-- [ ] Review Activities Screen
+- [x] Review Activities Screen
 - [x] Add icons https://www.joshmorony.com/adding-icons-splash-screens-launch-images-to-capacitor-projects/
 - [ ] Activity Summary Screen
+- [ ] Improved Review Activities Screen
 - [ ] Notification Bar Easy Entry
 - [ ] (Review Screen) Push to X by 2 task tracking
 - [ ] User configure activity types

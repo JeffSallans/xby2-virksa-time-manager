@@ -1,9 +1,27 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Tab Three
+      Review Activities
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content>
+  <ion-grid>
+    <ion-row *ngFor="let activity of sortedActivityList">
+      <ion-col size="10">
+        <div class="review-item">
+          {{activity?.startTime.format('M/D')}} - {{activity?.activityType?.name}} - {{getActivityDuration(activity)}}
+        </div>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button *ngIf="!activity.getHasBeenReviewed() && activity.id !== targetActivityId" color="secondary" (click)="editActivity(activity)">review</ion-button>
+        <ion-button *ngIf="activity.getHasBeenReviewed() && activity.id !== targetActivityId" color="secondary" fill="outline" (click)="editActivity(activity)">edit</ion-button>
+        <ion-button *ngIf="activity.id === targetActivityId" (click)="saveActivity(activity)">save</ion-button>
+      </ion-col>
+      <ion-col *ngIf="activity.id === targetActivityId" size="12">
+        <ion-textarea placeholder="Activity Description" [(ngModel)]="activity.description"></ion-textarea>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

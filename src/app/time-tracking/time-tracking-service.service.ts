@@ -35,9 +35,10 @@ export class TimeTrackingService {
 
 	]
 	private activityList: ActivitySession[] = [];
+	private storagePromise: Promise<void>;
 
 	constructor(private storage: Storage) {
-		storage.get(storageKey)
+		this.storagePromise = storage.get(storageKey)
 			.then(data => {
 				if (!isEmpty(data)) {
 					// Convert string to properly formed JSON
@@ -56,8 +57,10 @@ export class TimeTrackingService {
 			return currentActivity;
 	}
 
-	getActivityList(): ActivitySession[] {
-		return cloneDeep(this.activityList);
+	getActivityList(): Promise<ActivitySession[]> {
+		return this.storagePromise.then(() => {
+			return cloneDeep(this.activityList);
+		});
 	}
 
 	getPossibleActivityTypes(): ActivityType[] {
@@ -108,5 +111,25 @@ export class TimeTrackingService {
 					return resultSoFar;
 			}, moment.duration());
 			return totalDuration;
+	}
+
+	saveActivity(activityToSave: ActivitySession): Promise<void> {
+		return this.storagePromise.then(() => {
+			const activityListResult = reduce(this.activityList, (resultSoFar, activity) => {
+				// Save new activity if id matches
+				if (activityToSave.id === activity.id) {
+					resultSoFar.push(activityToSave);
+				} else {
+					resultSoFar.push(activity);
+				}
+				return resultSoFar;
+			}, []);
+	
+			// Update activityList
+			this.activityList = activityListResult;
+
+			// Save to storage
+			this.storage.set(storageKey, JSON.stringify(this.activityList));
+		});
 	}
 }

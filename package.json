@@ -1,6 +1,6 @@
 {
   "name": "virksa-time-manager",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "Jeff Sallans",
   "homepage": "https://ionicframework.com/",
   "scripts": {
@@ -34,6 +34,7 @@
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "rxjs": "~6.3.3",
+    "shortid": "^2.2.14",
     "zone.js": "~0.8.29"
   },
   "devDependencies": {
