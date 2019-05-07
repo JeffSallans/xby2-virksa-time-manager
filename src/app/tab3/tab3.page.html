@@ -9,12 +9,12 @@
 <ion-content>
   <ion-grid>
     <ion-row *ngFor="let activity of sortedActivityList">
-      <ion-col size="10">
+      <ion-col size="9">
         <div class="review-item">
           {{activity?.startTime.format('M/D')}} - {{activity?.activityType?.name}} - {{getActivityDuration(activity)}}
         </div>
       </ion-col>
-      <ion-col size="2">
+      <ion-col size="3">
         <ion-button *ngIf="!activity.getHasBeenReviewed() && activity.id !== targetActivityId" color="secondary" (click)="editActivity(activity)">review</ion-button>
         <ion-button *ngIf="activity.getHasBeenReviewed() && activity.id !== targetActivityId" color="secondary" fill="outline" (click)="editActivity(activity)">edit</ion-button>
         <ion-button *ngIf="activity.id === targetActivityId" (click)="saveActivity(activity)">save</ion-button>

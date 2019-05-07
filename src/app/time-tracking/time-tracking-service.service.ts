@@ -22,17 +22,25 @@ const storageKey = 'TimeTrackingServiceKey';
 })
 export class TimeTrackingService {
 	private possibleActivityTypes: ActivityType[] = [
-			new ActivityType('NASCO', 'NASCO', '.nasco'),
-			new ActivityType('NASCO-Rampup', 'NASCO Prep', '.nasco'),
-			new ActivityType('AO', 'AO work', '.ao'),
-			new ActivityType('AO-Assistance', 'Helping others at AO', '.ao'),
-			new ActivityType('XBY2-Recuriting', 'Recuriting', '.xby2'),
-			new ActivityType('XBY2-Mentor-Jason', 'Mentor Jason', '.xby2'),
-			new ActivityType('XBY2-Mentorship-Dave', 'Mentored by Dave', '.xby2'),
-			new ActivityType('XBY2-Advisor-Selina', 'Advise Selina', '.xby2'),
-			new ActivityType('XBY2-SIG', 'X by 2 SIGs', '.xby2'),
-			new ActivityType('XBY2-Other', 'Other things at X by 2', '.xby2'),
-
+/*
+		new ActivityType('DOMINOS', 'Domino\'s', '.dominos'),
+		new ActivityType('DOMINOS-OTHER', 'Domino\'s Other', '.dominos'),
+		new ActivityType('XBY2-SIG', 'X by 2 SIGs', '.xby2'),
+		new ActivityType('XBY2-POINTS', 'X by 2 Points', '.xby2'),
+		new ActivityType('XBY2-Recuriting', 'Recuriting', '.xby2'),
+		new ActivityType('XBY2-Mentorship', 'Mentorship', '.xby2'),
+		new ActivityType('XBY2-Advising', 'Advising', '.xby2'),
+*/
+		new ActivityType('NASCO', 'NASCO', '.nasco'),
+		new ActivityType('NASCO-Rampup', 'NASCO Prep', '.nasco'),
+		new ActivityType('AO', 'AO work', '.ao'),
+		new ActivityType('AO-Assistance', 'Helping others at AO', '.ao'),
+		new ActivityType('XBY2-Recuriting', 'Recuriting', '.xby2'),
+		new ActivityType('XBY2-Mentor-Jason', 'Mentor Jason', '.xby2'),
+		new ActivityType('XBY2-Mentorship-Dave', 'Mentored by Dave', '.xby2'),
+		new ActivityType('XBY2-Advisor-Selina', 'Advise Selina', '.xby2'),
+		new ActivityType('XBY2-SIG', 'X by 2 SIGs', '.xby2'),
+		new ActivityType('XBY2-Other', 'Other things at X by 2', '.xby2'),
 	]
 	private activityList: ActivitySession[] = [];
 	private storagePromise: Promise<void>;
