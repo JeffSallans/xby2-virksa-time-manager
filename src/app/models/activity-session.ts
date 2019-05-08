@@ -1,16 +1,11 @@
 import * as moment from 'moment';
 import { isNil, find } from 'lodash';
 import shortid from 'shortid';
+import { ActivityType } from './activity-type';
 
-export class ActivityType {
-    constructor(
-        public id: string,
-        public name: string,
-        public cssClass: string) {
-
-    }
-}
-
+/**
+ * Activity a user recorded doing
+ */
 export class ActivitySession {
     id: string;
     constructor(

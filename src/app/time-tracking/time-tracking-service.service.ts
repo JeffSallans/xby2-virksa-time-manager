@@ -10,10 +10,9 @@ import {
 import * as moment from 'moment';
 import { Storage } from '@ionic/storage';
 
-import {
-		ActivitySession,
-		ActivityType,
-} from './models';
+import { ActivitySession } from '../models/activity-session';
+import { ActivityType } from '../models/activity-type';
+import { UserSettingsService } from '../user-settings/user-settings.service';
 
 const storageKey = 'TimeTrackingServiceKey';
 
@@ -21,41 +20,28 @@ const storageKey = 'TimeTrackingServiceKey';
 	providedIn: 'root'
 })
 export class TimeTrackingService {
-	private possibleActivityTypes: ActivityType[] = [
-/*
-		new ActivityType('DOMINOS', 'Domino\'s', '.dominos'),
-		new ActivityType('DOMINOS-OTHER', 'Domino\'s Other', '.dominos'),
-		new ActivityType('XBY2-SIG', 'X by 2 SIGs', '.xby2'),
-		new ActivityType('XBY2-POINTS', 'X by 2 Points', '.xby2'),
-		new ActivityType('XBY2-Recuriting', 'Recuriting', '.xby2'),
-		new ActivityType('XBY2-Mentorship', 'Mentorship', '.xby2'),
-		new ActivityType('XBY2-Advising', 'Advising', '.xby2'),
-*/
-		new ActivityType('NASCO', 'NASCO', '.nasco'),
-		new ActivityType('NASCO-Rampup', 'NASCO Prep', '.nasco'),
-		new ActivityType('AO', 'AO work', '.ao'),
-		new ActivityType('AO-Assistance', 'Helping others at AO', '.ao'),
-		new ActivityType('XBY2-Recuriting', 'Recuriting', '.xby2'),
-		new ActivityType('XBY2-Mentor-Jason', 'Mentor Jason', '.xby2'),
-		new ActivityType('XBY2-Mentorship-Dave', 'Mentored by Dave', '.xby2'),
-		new ActivityType('XBY2-Advisor-Selina', 'Advise Selina', '.xby2'),
-		new ActivityType('XBY2-SIG', 'X by 2 SIGs', '.xby2'),
-		new ActivityType('XBY2-Other', 'Other things at X by 2', '.xby2'),
-	]
+	/** All the activities the user has recorded */
 	private activityList: ActivitySession[] = [];
+	/** Resolves when the activity list has been loaded in the app */
 	private storagePromise: Promise<void>;
 
-	constructor(private storage: Storage) {
+	constructor(
+		private storage: Storage,
+		private userSettingsService: UserSettingsService,
+	) {
 		this.storagePromise = storage.get(storageKey)
 			.then(data => {
 				if (!isEmpty(data)) {
 					// Convert string to properly formed JSON
 					const activityListWithoutClasses = JSON.parse(data);
-					const loadedActivityList: ActivitySession[] = map(activityListWithoutClasses, 
-						(activityWithoutClasses) => 
-						ActivitySession.convertObject(activityWithoutClasses, this.getPossibleActivityTypes())
-					);
-					this.activityList = loadedActivityList;
+					return this.getPossibleActivityTypes()
+						.then(possibleActivityTypes => {
+							const loadedActivityList: ActivitySession[] = map(activityListWithoutClasses, 
+								(activityWithoutClasses) => 
+								ActivitySession.convertObject(activityWithoutClasses, possibleActivityTypes)
+							);
+							this.activityList = loadedActivityList;
+						});
 				}
 			});
 	}
@@ -71,8 +57,9 @@ export class TimeTrackingService {
 		});
 	}
 
-	getPossibleActivityTypes(): ActivityType[] {
-		return cloneDeep(this.possibleActivityTypes);
+	getPossibleActivityTypes(): Promise<ActivityType[]> {
+		return this.userSettingsService.getUserSettings()
+			.then(userSettings => userSettings.possibleActivityTypes);
 	}
 
 	startActivity(newActivityType: ActivityType) {

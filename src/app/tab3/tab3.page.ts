@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import * as moment from 'moment';
-import { isNil, padStart, sortBy } from 'lodash';
+import { isNil, padStart, sortBy, reverse } from 'lodash';
 
-import { TimeTrackingService, ActivityType, ActivitySession } from '../time-tracking';
+import { TimeTrackingService } from '../time-tracking';
+import { ActivitySession } from '../models/activity-session';
 
 @Component({
   selector: 'app-tab3',
@@ -30,7 +31,7 @@ export class Tab3Page {
 
   ngOnInit(): void {
     this.timeTrackingService.getActivityList().then((activityList) => {
-      this.sortedActivityList = sortBy(activityList, (activity: ActivitySession) => activity.startTime);
+      this.sortedActivityList = reverse(sortBy(activityList, (activity: ActivitySession) => activity.startTime));
     });
 
     const removeDateInterval = setInterval(() => {

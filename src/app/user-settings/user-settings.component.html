@@ -1,0 +1,50 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>
+        Tab One
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    <form [formGroup]="settingsForm">
+      <ion-grid formArrayName="possibleActivityTypes">
+        <ion-row *ngFor="let activityType of settingsForm.get('possibleActivityTypes').controls; index as i" [formGroupName]="i">
+          <ion-col size="12">
+            <ion-item>
+              <ion-label>
+                Name
+              </ion-label>
+              <ion-input formControlName="name" type="text"></ion-input>
+            </ion-item>
+          </ion-col>    
+          <ion-col size="9">
+            <ion-item>
+              <ion-label>
+                ID
+              </ion-label>
+              <ion-input formControlName="id" type="text"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="3">
+            <ion-button fill="outline" (click)="removeActivityType(i)"><ion-icon name="trash"></ion-icon></ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button fill="outline" (click)="addActivityType()"><ion-icon name="add"></ion-icon></ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button (click)="save()">Save</ion-button>
+            <ion-button fill="outline" (click)="cancel()">Revert To Last Save</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </ion-content>
+  

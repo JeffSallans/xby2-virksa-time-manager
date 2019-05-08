@@ -8,10 +8,8 @@ import { TestBed } from '@angular/core/testing';
 import { expectjs, registerSnapshots } from "jasmine-snapshot";
 
 import { TimeTrackingService } from './time-tracking-service.service';
-import {
-	ActivitySession,
-	ActivityType,
-} from './models';
+import { ActivitySession } from '../models/activity-session';
+import { ActivityType } from '../models/activity-type';
 
 const snapshots = {
 	"TimeTrackingService startActivity creates an activity if none exist 1": `[ { "activityType": { "cssClass": ".nasco", "id": "NASCO", "name": "NASCO" }, "hasStartTime": true, "hasStopTime": false }]`,

@@ -1,7 +1,12 @@
 # Virksa Time Manager Mobile App
 X by 2 utility, manage multiple client billable hours with a stopwatch like app.  Uses Ionic Framework.
 
-## [Install Mobile App]() link pending CI/CD
+## [Install Mobile App](https://play.google.com/store/apps/details?id=virksa.jeffsallans)
+
+## Changelog
+
+v1.3.0 - Changed to side menu navigation and added Settings page
+v1.2.0 - Initial open release to app store
 
 ## Technology
 
@@ -80,8 +85,8 @@ Reach out to me.
 - [ ] Improved Review Activities Screen
 - [ ] Notification Bar Easy Entry
 - [ ] (Review Screen) Push to X by 2 task tracking
-- [ ] User configure activity types
-- [ ] CI/CD configuration with Ionic AppFlow
+- [x] User configure activity types
+- [x] CI/CD configuration with Ionic AppFlow
 - [ ] Set slack status
 - [ ] Import Outlook Calendar data
 

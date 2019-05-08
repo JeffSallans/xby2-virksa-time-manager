@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import * as moment from 'moment';
 import { isNil, padStart } from 'lodash';
 
-import { TimeTrackingService, ActivityType, ActivitySession } from '../time-tracking';
+import { TimeTrackingService } from '../time-tracking';
+import { ActivityType } from '../models/activity-type';
+import { ActivitySession } from '../models/activity-session';
 
 @Component({
   templateUrl: 'switchActivityTab.page.html',
@@ -13,7 +15,7 @@ export class SwitchActivityTabPage {
   /**
    * Possible activities to render
    */
-  possibleActivityTypes: ActivityType[];
+  possibleActivityTypes: ActivityType[] = [];
   /**
    * Updates the component every second to get the latest getDailyHourTotal
    */
@@ -22,7 +24,8 @@ export class SwitchActivityTabPage {
   constructor(private timeTrackingService: TimeTrackingService) {}
 
   ngOnInit(): void {
-    this.possibleActivityTypes = this.timeTrackingService.getPossibleActivityTypes();
+    this.timeTrackingService.getPossibleActivityTypes()
+      .then(possibleActivityTypes => this.possibleActivityTypes = possibleActivityTypes);
 
     const removeDateInterval = setInterval(() => {
       this.heartbeat = new Date();
