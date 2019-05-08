@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Add Activity</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="addForm">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label>
+              Activity Type
+            </ion-label>
+            <ion-select formControlName="type" placeholder="Select One">
+              <div *ngFor="let activityType of possibleActivityTypes">
+                <ion-select-option [value]="activityType">{{activityType.name}}</ion-select-option>
+              </div>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label>
+              Duration
+            </ion-label>
+            <ion-select formControlName="duration" placeholder="Select One">
+              <ion-select-option value="15">15 min</ion-select-option>
+              <ion-select-option value="30">30 min</ion-select-option>
+              <ion-select-option value="45">45 min</ion-select-option>
+              <ion-select-option value="60">1h</ion-select-option>
+              <ion-select-option value="75">1h 15 min</ion-select-option>
+              <ion-select-option value="90">1h 30 min</ion-select-option>
+              <ion-select-option value="105">1h 45 min</ion-select-option>
+              <ion-select-option value="120">2h</ion-select-option>
+              <ion-select-option value="135">2h 15 min</ion-select-option>
+              <ion-select-option value="150">2h 30 min</ion-select-option>
+              <ion-select-option value="165">2h 45 min</ion-select-option>
+              <ion-select-option value="180">3h</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button (click)="save()">Add</ion-button>
+        </ion-col>
+      </ion-row>    
+    </ion-grid>
+  </form>
+</ion-content>

@@ -4,6 +4,7 @@ import { UserSettings } from '../models/user-settings';
 import { UserSettingsService } from './user-settings.service';
 import { Subscription } from 'rxjs';
 import { map } from 'lodash';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-settings',
@@ -21,6 +22,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   constructor(
     private userSettingsService: UserSettingsService,
     private fb: FormBuilder,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -62,12 +64,14 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
   save() {
     this.userSettingsService.setUserSettings(this.settingsForm.value);
+    this.router.navigateByUrl('/switch-activity');
   }
 
   cancel() {
     this.userSettingsService.getUserSettings()
       .then((userSettings) => {
         this.initializeForm(userSettings);
+        this.router.navigateByUrl('/switch-activity');
       });
   }
 

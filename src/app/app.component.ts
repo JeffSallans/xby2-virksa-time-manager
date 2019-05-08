@@ -21,6 +21,11 @@ export class AppComponent {
       icon: 'checkbox-outline'
     },
     {
+      title: 'Add Activity',
+      url: '/add-activity',
+      icon: 'add'
+    },
+    {
       title: 'User Settings',
       url: '/settings',
       icon: 'settings'

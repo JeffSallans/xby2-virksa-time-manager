@@ -62,6 +62,17 @@ export class TimeTrackingService {
 			.then(userSettings => userSettings.possibleActivityTypes);
 	}
 
+	addActivity(newActivitySession: ActivitySession) {
+		// Can only add activities that have finished
+		if (isNil(newActivitySession.stopTime)) {
+			return;
+		}
+		this.activityList.push(newActivitySession);
+
+		// Save to storage
+		this.storage.set(storageKey, JSON.stringify(this.activityList));
+	}
+
 	startActivity(newActivityType: ActivityType) {
 		// Stop current activity
 		const currentActivity = this.getCurrentRunningActivityReference();

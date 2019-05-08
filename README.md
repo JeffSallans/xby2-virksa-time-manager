@@ -5,6 +5,7 @@ X by 2 utility, manage multiple client billable hours with a stopwatch like app.
 
 ## Changelog
 
+v1.4.0 - Added add activity screen
 v1.3.0 - Changed to side menu navigation and added Settings page
 v1.2.0 - Initial open release to app store
 

@@ -22,7 +22,8 @@ const routes: Routes = [
   {
     path: 'settings',
     loadChildren: './user-settings/user-settings.module#UserSettingsPageModule'
-  }
+  },
+  { path: 'add-activity', loadChildren: './add-activity/add-activity.module#AddActivityPageModule' }
 ];
 
 @NgModule({
